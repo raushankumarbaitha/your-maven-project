@@ -5,5 +5,20 @@ pool:
   name: Default
 
 steps:
-- script: echo "Hello from Self Hosted Agent"
-  displayName: Run Script
+
+- script: echo "Building Application"
+  displayName: Build Step
+
+- script: echo "Creating artifact file"
+  displayName: Create File
+
+- script: |
+    echo Hello DevOps > app.txt
+  displayName: Generate App File
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: '**/*.txt'
+    TargetFolder: 'C:\deployment'
+  displayName: Deploy to Local Server
